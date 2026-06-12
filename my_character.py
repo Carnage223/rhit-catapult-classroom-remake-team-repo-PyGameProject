@@ -11,7 +11,7 @@ class Character:
         self.velocity_y = 0
         self.gravity = 0.5
         self.jump_power = 12
-        self.ground_level = y
+        self.ground_level = screen.get_height() - 20  # Floor is at the bottom of the screen
         self.is_jumping = False
 
     def move(self, dx, dy=0):
@@ -31,6 +31,11 @@ class Character:
         self.velocity_y += self.gravity
         self.y += self.velocity_y
 
+        # Keep character within screen bounds vertically
+        if self.y <= 0:  # Prevent going above the screen
+            self.y = 0
+            self.velocity_y = 0
+        
         # Check if character reached ground level
         if self.y >= self.ground_level:
             self.y = self.ground_level
