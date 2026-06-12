@@ -14,7 +14,7 @@ def main():
     # TODO: Change the size of the screen as you see fit!
     screen = pygame.display.set_mode((640, 480))
     # creates a Character from the my_character.py file
-    character = my_character.Character(screen, 100, 100)
+    character = my_character.Character(screen, 20, 100)
 
     # let's set the framerate
     clock = pygame.time.Clock()
@@ -25,6 +25,18 @@ def main():
                 sys.exit()
 
             # TODO: Add you events code
+
+        # Handle continuous key presses for movement
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            character.move(-1)
+        if keys[pygame.K_RIGHT]:
+            character.move(1)
+        if keys[pygame.K_SPACE]:
+            character.jump()
+
+        # Update character physics
+        character.update()
 
         # TODO: Fill the screen with whatever background color you like!
         screen.fill((255, 255, 255))

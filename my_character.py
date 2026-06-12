@@ -7,6 +7,35 @@ class Character:
         self.screen = screen
         self.x = x
         self.y = y
+        self.speed = 5
+        self.velocity_y = 0
+        self.gravity = 0.5
+        self.jump_power = 12
+        self.ground_level = y
+        self.is_jumping = False
+
+    def move(self, dx, dy=0):
+        """Move the character horizontally by dx pixels"""
+        self.x += dx * self.speed
+        # Keep character within screen bounds horizontally
+        self.x = max(0, min(self.x, self.screen.get_width() - 20))
+
+    def jump(self):
+        """Make the character jump if on the ground"""
+        if not self.is_jumping:
+            self.velocity_y = -self.jump_power
+            self.is_jumping = True
+
+    def update(self):
+        """Update character physics (gravity and jumping)"""
+        self.velocity_y += self.gravity
+        self.y += self.velocity_y
+
+        # Check if character reached ground level
+        if self.y >= self.ground_level:
+            self.y = self.ground_level
+            self.velocity_y = 0
+            self.is_jumping = False
 
     def draw(self):
         pygame.draw.rect(self.screen, "blue", (self.x, self.y, 20, 20))
